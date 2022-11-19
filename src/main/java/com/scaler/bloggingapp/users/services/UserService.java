@@ -2,9 +2,8 @@ package com.scaler.bloggingapp.users.services;
 
 
 import com.scaler.bloggingapp.common.dto.PagedResults;
-import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
-import com.scaler.bloggingapp.users.dto.UserPostRequestDTO;
-import com.scaler.bloggingapp.users.dto.UserPostResponseDTO;
+import com.scaler.bloggingapp.users.dto.*;
+import com.scaler.bloggingapp.users.exceptions.InvalidUserCredentialsException;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
 
 public interface UserService {
@@ -15,5 +14,9 @@ public interface UserService {
 
     public abstract PagedResults<UserGetResponseDTO> getUsers(Integer pageSize, Integer offset) throws UserNotFoundException;
 
+    public abstract boolean deleteUser(Long userId);
 
+    public abstract UserGetResponseDTO findUserByUsername(String emailId);
+
+    public abstract LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO);
 }

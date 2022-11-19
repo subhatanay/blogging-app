@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,10 +18,11 @@ import java.util.Date;
 public class UserGetResponseDTO implements Serializable {
 
     private Long userId;
-    private String name;
+    private String username;
     private String emailId;
     private String userLogoUrl;
     private Date createdDate;
+    private List<String> roles;
 
     private ErrorResponseDTO errorResponse;
 
@@ -29,7 +31,7 @@ public class UserGetResponseDTO implements Serializable {
         UserGetResponseDTO userGetResponseDTO = new UserGetResponseDTO();
 
         userGetResponseDTO.setUserId(userEnitity.getUserId());
-        userGetResponseDTO.setName(userEnitity.getName());
+        userGetResponseDTO.setUsername(userEnitity.getUsername());
         userGetResponseDTO.setEmailId(userEnitity.getEmailId());
         userGetResponseDTO.setUserLogoUrl(userEnitity.getProfileImageLink());
         userGetResponseDTO.setCreatedDate(userEnitity.getCreateTimestamp());

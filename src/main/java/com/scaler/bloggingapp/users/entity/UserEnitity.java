@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +21,8 @@ public class UserEnitity extends AuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private String name;
+    private String username;
+    private String fullName;
     private String bio;
     @Column(name = "email_id", unique = true)
     private String emailId;
@@ -34,6 +34,12 @@ public class UserEnitity extends AuditEntity {
                 joinColumns = @JoinColumn(name="followed_id"),
                 inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private Set<UserEnitity> followers;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="user_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RolesEntity> userRoles = new HashSet<>();
 
     @ManyToMany(mappedBy = "followers")
     private Set<UserEnitity> followings;
@@ -53,14 +59,24 @@ public class UserEnitity extends AuditEntity {
 
     public static UserEnitity buildFromUserDTO(UserPostRequestDTO userData) {
         UserEnitity userEnitity = new UserEnitity();
-        userEnitity.setName(userData.getName());
+        userEnitity.setUsername(userData.getUsername());
         userEnitity.setEmailId(userData.getEmailId());
-        userEnitity.setProfileImageLink(userData.getUserLogoUrl());
         userEnitity.setPassword(userData.getPassword());
         userEnitity.setCreateTimestamp(new Date());
         userEnitity.setUpdateTimestamp(new Date());
 
         return userEnitity;
     }
+
+    public List<String> getRoles() {
+        List<String> userRoles = new ArrayList<>();
+
+        for (RolesEntity role: this.getUserRoles()) {
+            userRoles.add(role.getRoleName());
+        }
+
+        return userRoles;
+    }
+
 
 }

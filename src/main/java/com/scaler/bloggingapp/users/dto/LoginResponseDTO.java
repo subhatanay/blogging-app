@@ -1,6 +1,5 @@
 package com.scaler.bloggingapp.users.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
 import lombok.*;
@@ -9,13 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserPostResponseDTO {
-
-    private Long userId;
-    private String resourceUrl;
-    private String token;
+@Builder
+public class LoginResponseDTO {
+    Long userId;
+    String userName;
+    String token;
 
     private ErrorResponseDTO errorResponse;
 }

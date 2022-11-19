@@ -1,7 +1,7 @@
 package com.scaler.bloggingapp.blogs.dtos;
 
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
-import com.scaler.bloggingapp.users.dto.Validation;
+import com.scaler.bloggingapp.common.dto.Validation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

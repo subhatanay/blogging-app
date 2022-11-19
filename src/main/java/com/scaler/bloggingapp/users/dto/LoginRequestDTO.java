@@ -1,32 +1,23 @@
 package com.scaler.bloggingapp.users.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.scaler.bloggingapp.common.dto.Validation;
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
-
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class UserPostRequestDTO implements Serializable, Validation {
-
-    private String username;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+public class LoginRequestDTO implements Validation {
     private String emailId;
-    private String password;
-
+    protected String password;
 
     @Override
     public boolean validate() throws ValidationException {
-        if (!StringUtils.hasText(this.username)) {
-            throw new ValidationException("Please provide user's full name");
-        }
-
         if (!StringUtils.hasText(this.emailId)) {
             throw new ValidationException("Please provide user's email id");
         }
@@ -34,6 +25,7 @@ public class UserPostRequestDTO implements Serializable, Validation {
         if (!StringUtils.hasText(this.password)) {
             throw new ValidationException("Please provide user's password");
         }
+
         return true;
     }
 }

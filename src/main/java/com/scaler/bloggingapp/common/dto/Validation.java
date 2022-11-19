@@ -1,4 +1,4 @@
-package com.scaler.bloggingapp.users.dto;
+package com.scaler.bloggingapp.common.dto;
 
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
 
