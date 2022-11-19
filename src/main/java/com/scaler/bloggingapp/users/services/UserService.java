@@ -11,7 +11,7 @@ public interface UserService {
 
     public abstract UserPostResponseDTO createUser(UserPostRequestDTO userPostDto);
 
-    public abstract UserGetResponseDTO getUser(Integer userId);
+    public abstract UserGetResponseDTO getUser(Long userId);
 
     public abstract PagedResults<UserGetResponseDTO> getUsers(Integer pageSize, Integer offset) throws UserNotFoundException;
 

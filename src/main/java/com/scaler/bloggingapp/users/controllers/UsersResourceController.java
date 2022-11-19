@@ -36,7 +36,7 @@ public class UsersResourceController {
     }
 
     @GetMapping(path = "/{userId}")
-    public ResponseEntity getUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity getUser(@PathVariable("userId") Long userId) {
         UserGetResponseDTO userGetResponseDTO = userService.getUser(userId);
 
         if (userGetResponseDTO.getErrorResponse()!=null) {

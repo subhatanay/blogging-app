@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserGetResponseDTO getUser(Integer userId) {
+    public UserGetResponseDTO getUser(Long userId) {
         try {
             Optional<UserEnitity> userEnitity = userRepository.findById(Long.valueOf(userId));
             if (!userEnitity.isPresent()) {

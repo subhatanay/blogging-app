@@ -31,8 +31,8 @@ public class UserGetResponseDTO implements Serializable {
         userGetResponseDTO.setUserId(userEnitity.getUserId());
         userGetResponseDTO.setName(userEnitity.getName());
         userGetResponseDTO.setEmailId(userEnitity.getEmailId());
-        userGetResponseDTO.setUserLogoUrl(userEnitity.getUserLogoUrl());
-        userGetResponseDTO.setCreatedDate(userEnitity.getCreatedAt());
+        userGetResponseDTO.setUserLogoUrl(userEnitity.getProfileImageLink());
+        userGetResponseDTO.setCreatedDate(userEnitity.getCreateTimestamp());
 
         return userGetResponseDTO;
 
