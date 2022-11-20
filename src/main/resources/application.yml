@@ -7,7 +7,7 @@ spring:
     username: postgres
     password: subhajit123
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
 
@@ -23,4 +23,4 @@ server:
 app:
   jwt:
     secret: dsfhdsfhdsufudsfhuidshfidshfucdf
-    expiration: 360000 # 1 hour
+    expiration: 3600000 # 1 hour

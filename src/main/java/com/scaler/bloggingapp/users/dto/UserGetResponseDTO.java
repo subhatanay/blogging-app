@@ -2,7 +2,7 @@ package com.scaler.bloggingapp.users.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
-import com.scaler.bloggingapp.users.entity.UserEnitity;
+import com.scaler.bloggingapp.users.entity.UserEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -23,18 +23,21 @@ public class UserGetResponseDTO implements Serializable {
     private String userLogoUrl;
     private Date createdDate;
     private List<String> roles;
+    private Integer followersCount;
+    private Integer followingCount;
+
 
     private ErrorResponseDTO errorResponse;
 
 
-    public static UserGetResponseDTO buildFrom(UserEnitity userEnitity) {
+    public static UserGetResponseDTO buildFrom(UserEntity userEntity) {
         UserGetResponseDTO userGetResponseDTO = new UserGetResponseDTO();
 
-        userGetResponseDTO.setUserId(userEnitity.getUserId());
-        userGetResponseDTO.setUsername(userEnitity.getUsername());
-        userGetResponseDTO.setEmailId(userEnitity.getEmailId());
-        userGetResponseDTO.setUserLogoUrl(userEnitity.getProfileImageLink());
-        userGetResponseDTO.setCreatedDate(userEnitity.getCreateTimestamp());
+        userGetResponseDTO.setUserId(userEntity.getUserId());
+        userGetResponseDTO.setUsername(userEntity.getUsername());
+        userGetResponseDTO.setEmailId(userEntity.getEmailId());
+        userGetResponseDTO.setUserLogoUrl(userEntity.getProfileImageLink());
+        userGetResponseDTO.setCreatedDate(userEntity.getCreateTimestamp());
 
         return userGetResponseDTO;
 

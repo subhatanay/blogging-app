@@ -1,6 +1,6 @@
 package com.scaler.bloggingapp.users.entity;
 
-import com.scaler.bloggingapp.blogs.entity.ArticleEntity;
+import com.scaler.bloggingapp.articles.entity.ArticleEntity;
 import com.scaler.bloggingapp.common.models.AuditEntity;
 import com.scaler.bloggingapp.users.dto.UserPostRequestDTO;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity(name = "users")
-public class UserEnitity extends AuditEntity {
+public class UserEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -33,7 +33,7 @@ public class UserEnitity extends AuditEntity {
     @JoinTable(name="follow",
                 joinColumns = @JoinColumn(name="followed_id"),
                 inverseJoinColumns = @JoinColumn(name = "follower_id"))
-    private Set<UserEnitity> followers;
+    private Set<UserEntity> followers;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
@@ -42,30 +42,31 @@ public class UserEnitity extends AuditEntity {
     private Set<RolesEntity> userRoles = new HashSet<>();
 
     @ManyToMany(mappedBy = "followers")
-    private Set<UserEnitity> followings;
+    private Set<UserEntity> followings;
 
-    @OneToMany
-    @JoinTable(name= "publishedArticles",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="article_id"))
+    @OneToMany(mappedBy = "author")
     private Set<ArticleEntity> publishedArticles;
 
     @OneToMany
     @JoinTable(name="likes",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
+            joinColumns = @JoinColumn(name="user_id", unique = false),
+            inverseJoinColumns = @JoinColumn(name = "article_id" , unique = false))
     private Set<ArticleEntity> likedArticles;
 
+    public void removeLikesFromArticle(ArticleEntity article) {
+        likedArticles.remove(article);
+    }
 
-    public static UserEnitity buildFromUserDTO(UserPostRequestDTO userData) {
-        UserEnitity userEnitity = new UserEnitity();
-        userEnitity.setUsername(userData.getUsername());
-        userEnitity.setEmailId(userData.getEmailId());
-        userEnitity.setPassword(userData.getPassword());
-        userEnitity.setCreateTimestamp(new Date());
-        userEnitity.setUpdateTimestamp(new Date());
 
-        return userEnitity;
+    public static UserEntity buildFromUserDTO(UserPostRequestDTO userData) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userData.getUsername());
+        userEntity.setEmailId(userData.getEmailId());
+        userEntity.setPassword(userData.getPassword());
+        userEntity.setCreateTimestamp(new Date());
+        userEntity.setUpdateTimestamp(new Date());
+
+        return userEntity;
     }
 
     public List<String> getRoles() {

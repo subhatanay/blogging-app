@@ -1,5 +1,6 @@
 package com.scaler.bloggingapp.users.entity;
 
+import com.scaler.bloggingapp.common.models.AuthTokenInfo;
 import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,22 +13,22 @@ import java.util.List;
 public class JwtAuthentication implements Authentication {
 
     private String jwtString;
-    private UserGetResponseDTO userGetResponseDTO;
+    private AuthTokenInfo authTokenInfo;
 
 
     public JwtAuthentication(String jwtString) {
         this.jwtString = jwtString;
     }
 
-    public void setUser(UserGetResponseDTO userGetResponseDTO) {
-        this.userGetResponseDTO= userGetResponseDTO;
+    public void setUser(AuthTokenInfo authTokenInfo) {
+        this.authTokenInfo= authTokenInfo;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (userGetResponseDTO != null) {
+        if (authTokenInfo != null) {
             List<SimpleGrantedAuthority> roleList = new ArrayList<>();
-            for (String role : userGetResponseDTO.getRoles()) {
+            for (String role : authTokenInfo.getRoles()) {
                 roleList.add(new SimpleGrantedAuthority(role));
             }
             return roleList;
@@ -42,17 +43,17 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-       return null;
+       return authTokenInfo;
     }
 
     @Override
     public Object getPrincipal() {
-        return this.userGetResponseDTO;
+        return this.authTokenInfo;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return this.userGetResponseDTO != null;
+        return this.authTokenInfo != null;
     }
 
     @Override
@@ -62,6 +63,6 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return this.userGetResponseDTO.getUsername();
+        return this.authTokenInfo.getUserName();
     }
 }

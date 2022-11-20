@@ -19,4 +19,12 @@ public interface UserService {
     public abstract UserGetResponseDTO findUserByUsername(String emailId);
 
     public abstract LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO);
+
+    public boolean followUser(Long userId, Long followerUserId);
+
+    public abstract boolean unFollowUser(Long userId, Long followerUserId);
+
+    public abstract PagedResults<UserGetResponseDTO> getUserFollowers(Long userId, Integer offset, Integer pageSize);
+
+    public abstract PagedResults<UserGetResponseDTO> getUserFollowings(Long userId, Integer offset, Integer pageSize);
 }

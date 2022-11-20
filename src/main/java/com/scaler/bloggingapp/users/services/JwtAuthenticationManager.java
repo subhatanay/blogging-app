@@ -1,5 +1,6 @@
 package com.scaler.bloggingapp.users.services;
 
+import com.scaler.bloggingapp.common.models.AuthTokenInfo;
 import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import com.scaler.bloggingapp.users.entity.JwtAuthentication;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +25,14 @@ public class JwtAuthenticationManager implements AuthenticationManager {
         String userName = jwtService.findUsernameFromJWT(jwtString);
 
         UserGetResponseDTO user = userService.findUserByUsername(userName);
-        jwtAuthentication.setUser(user);
+
+        AuthTokenInfo authTokenInfo = AuthTokenInfo.builder()
+                .userId(user.getUserId())
+                .userName(user.getUsername())
+                .roles(user.getRoles())
+                .build();
+
+        jwtAuthentication.setUser(authTokenInfo);
 
         return jwtAuthentication;
     }

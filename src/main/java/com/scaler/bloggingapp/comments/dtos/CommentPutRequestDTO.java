@@ -1,4 +1,4 @@
-package com.scaler.bloggingapp.blogs.dtos;
+package com.scaler.bloggingapp.comments.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BlogGetResponseDTO {
-    private Long blogId;
-    private String subject;
-    private String content;
+public class CommentPutRequestDTO {
+
+    private String commentsData;
 }
