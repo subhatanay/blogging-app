@@ -12,7 +12,7 @@ import com.scaler.bloggingapp.comments.entity.CommentsEntity;
 import com.scaler.bloggingapp.comments.exceptions.CommentNotAllowedException;
 import com.scaler.bloggingapp.comments.exceptions.NoCommentFoundException;
 import com.scaler.bloggingapp.common.dto.PagedResults;
-import com.scaler.bloggingapp.users.dao.UserRepository;
+import com.scaler.bloggingapp.users.entity.dao.UserRepository;
 import com.scaler.bloggingapp.users.entity.UserEntity;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
 import org.springframework.data.domain.Page;

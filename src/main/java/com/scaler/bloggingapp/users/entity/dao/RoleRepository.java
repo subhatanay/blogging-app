@@ -1,4 +1,4 @@
-package com.scaler.bloggingapp.users.dao;
+package com.scaler.bloggingapp.users.entity.dao;
 
 import com.scaler.bloggingapp.users.entity.RolesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

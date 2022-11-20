@@ -8,7 +8,7 @@ import com.scaler.bloggingapp.articles.dtos.ArticlePostResponseDTO;
 import com.scaler.bloggingapp.articles.dtos.ArticlePutRequestDTO;
 import com.scaler.bloggingapp.articles.entity.ArticleEntity;
 import com.scaler.bloggingapp.common.dto.PagedResults;
-import com.scaler.bloggingapp.users.dao.UserRepository;
+import com.scaler.bloggingapp.users.entity.dao.UserRepository;
 import com.scaler.bloggingapp.users.entity.UserEntity;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
 import org.springframework.data.domain.Page;

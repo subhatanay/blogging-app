@@ -2,8 +2,8 @@ package com.scaler.bloggingapp.users.services;
 
 
 import com.scaler.bloggingapp.common.dto.PagedResults;
-import com.scaler.bloggingapp.users.dao.RoleRepository;
-import com.scaler.bloggingapp.users.dao.UserRepository;
+import com.scaler.bloggingapp.users.entity.dao.RoleRepository;
+import com.scaler.bloggingapp.users.entity.dao.UserRepository;
 import com.scaler.bloggingapp.users.dto.*;
 import com.scaler.bloggingapp.users.entity.RolesEntity;
 import com.scaler.bloggingapp.users.entity.UserEntity;

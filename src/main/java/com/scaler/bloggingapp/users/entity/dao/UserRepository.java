@@ -1,4 +1,4 @@
-package com.scaler.bloggingapp.users.dao;
+package com.scaler.bloggingapp.users.entity.dao;
 
 import com.scaler.bloggingapp.users.entity.UserEntity;
 import org.springframework.data.domain.Page;
