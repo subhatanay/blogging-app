@@ -2,6 +2,8 @@ package com.scaler.bloggingapp.users.controllers;
 
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
 import com.scaler.bloggingapp.common.dto.PagedResults;
+import com.scaler.bloggingapp.common.exceptions.ForbiddenRequestException;
+import com.scaler.bloggingapp.common.models.CurrentAuthenticationHolder;
 import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import com.scaler.bloggingapp.users.dto.UserPostRequestDTO;
 import com.scaler.bloggingapp.users.dto.UserPostResponseDTO;
@@ -52,9 +54,13 @@ public class UsersResourceController {
     }
 
     @DeleteMapping("/{userId}")
-    @RolesAllowed("ROLE_USER")
+    @RolesAllowed({"ROLE_USER","ROLE_SYSADMIN"})
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId) {
         try {
+            Long currentUserId =  CurrentAuthenticationHolder.getCurrentAuthenticationContext().getUserId();
+            if (!(currentUserId.equals(userId) || CurrentAuthenticationHolder.isSysAdmin())) {
+                throw new ForbiddenRequestException("Delete user request forbidden request");
+            }
             userService.deleteUser(userId);
             return ResponseEntity.ok().build();
         } catch (UserNotFoundException notFoundException) {
@@ -68,9 +74,8 @@ public class UsersResourceController {
         }
     }
 
-
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> hadleUserNotFoundException(UserNotFoundException exception) {
+    public ResponseEntity<ErrorResponseDTO> handleUserNotFoundException(UserNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.valueOf(exception.getErrorCode()))
                 .body(ErrorResponseDTO.builder()
                         .errorCode(exception.getErrorCode())

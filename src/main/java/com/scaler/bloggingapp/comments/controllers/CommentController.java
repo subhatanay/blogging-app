@@ -103,32 +103,12 @@ public class CommentController {
                 );
     }
 
-    @ExceptionHandler(ForbiddenRequestException.class)
-    public ResponseEntity<ErrorResponseDTO> handleForbiddenRequestException(ForbiddenRequestException exception) {
-        return ResponseEntity.status(HttpStatus.valueOf(exception.getErrorCode()))
-                .body(ErrorResponseDTO.builder()
-                        .errorCode(exception.getErrorCode())
-                        .errorMessage(exception.getMessage())
-                        .build()
-                );
-    }
-
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponseDTO> handleArgumentValidationException(ValidationException validationException) {
         return ResponseEntity.status(HttpStatus.valueOf(validationException.getErrorCode()))
                 .body(ErrorResponseDTO.builder()
                         .errorCode(validationException.getErrorCode())
                         .errorMessage(validationException.getMessage())
-                        .build()
-                );
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> parentExceptionHandle(Exception exception) {
-        return ResponseEntity.status(HttpStatus.valueOf(500))
-                .body(ErrorResponseDTO.builder()
-                        .errorCode(500)
-                        .errorMessage(exception.getMessage())
                         .build()
                 );
     }

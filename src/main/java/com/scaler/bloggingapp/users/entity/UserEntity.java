@@ -3,6 +3,7 @@ package com.scaler.bloggingapp.users.entity;
 import com.scaler.bloggingapp.articles.entity.ArticleEntity;
 import com.scaler.bloggingapp.common.models.AuditEntity;
 import com.scaler.bloggingapp.users.dto.UserPostRequestDTO;
+import com.scaler.bloggingapp.users.dto.UserPutRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,6 +68,19 @@ public class UserEntity extends AuditEntity {
         userEntity.setUpdateTimestamp(new Date());
 
         return userEntity;
+    }
+
+    public UserEntity buildFromUserPutDto(UserPutRequestDto userData) {
+        if (userData.getFullName()!=null) {
+            this.setFullName(userData.getFullName());
+        }
+        if (userData.getProfileImageLink()!=null) {
+            this.setProfileImageLink(userData.getProfileImageLink());
+        }
+        if (userData.getPassword()!=null) {
+            this.setPassword(userData.getPassword());
+        }
+        return this;
     }
 
     public List<String> getRoles() {

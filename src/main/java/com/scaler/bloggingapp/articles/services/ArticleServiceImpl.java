@@ -1,5 +1,6 @@
 package com.scaler.bloggingapp.articles.services;
 
+import com.scaler.bloggingapp.articles.entity.LikedArticleInfo;
 import com.scaler.bloggingapp.articles.exceptions.ArticleNotFoundException;
 import com.scaler.bloggingapp.articles.dao.ArticleRepository;
 import com.scaler.bloggingapp.articles.dtos.ArticleGetResponseDTO;
@@ -8,6 +9,8 @@ import com.scaler.bloggingapp.articles.dtos.ArticlePostResponseDTO;
 import com.scaler.bloggingapp.articles.dtos.ArticlePutRequestDTO;
 import com.scaler.bloggingapp.articles.entity.ArticleEntity;
 import com.scaler.bloggingapp.common.dto.PagedResults;
+import com.scaler.bloggingapp.feed.dtos.FeedArticleContent;
+import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import com.scaler.bloggingapp.users.entity.dao.UserRepository;
 import com.scaler.bloggingapp.users.entity.UserEntity;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
@@ -42,7 +45,6 @@ public class ArticleServiceImpl implements ArticleService {
             throw new UserNotFoundException(MessageFormat.format("User with Id {0} not found" , userId));
         }
 
-
         ArticleEntity articleInfo = ArticleEntity.buildArticleEntityFromDTO(articlePostRequestDTO);
         articleInfo.setAuthor(userInfo.get());
         userInfo.get().getPublishedArticles().add(articleInfo);
@@ -60,9 +62,12 @@ public class ArticleServiceImpl implements ArticleService {
         if (usersArticles==null || usersArticles.getTotalElements() == 0 ){
             throw new ArticleNotFoundException("No Articles posted by the user");
         }
+
         List<ArticleGetResponseDTO> usersArticleList = usersArticles.get().map(article -> {
+            UserGetResponseDTO authorInfo = UserGetResponseDTO.buildFrom(article.getAuthor());
             ArticleGetResponseDTO responseDTO=  ArticleGetResponseDTO.buildFrom(article);
             responseDTO.setLikesCount(articleRepository.countLikesByArticleId(responseDTO.getArticleId()));
+            responseDTO.setAuthor(authorInfo);
             return responseDTO;
         }).collect(Collectors.toList());
 
@@ -80,6 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleEntity article = findByUserAndAArticleId(userInfo,articleId);
         ArticleGetResponseDTO articleGetResponseDTO = ArticleGetResponseDTO.buildFrom(article);
         articleGetResponseDTO.setLikesCount(articleRepository.countLikesByArticleId(articleGetResponseDTO.getArticleId()));
+        articleGetResponseDTO.setAuthor(UserGetResponseDTO.buildFrom(article.getAuthor()));
 
         return ArticleGetResponseDTO.buildFrom(article);
     }
@@ -89,6 +95,14 @@ public class ArticleServiceImpl implements ArticleService {
         UserEntity userInfo = findByUserId(userId);
         ArticleEntity article = findByUserAndAArticleId(userInfo,articleId);
 
+        articleRepository.deleteLikesFromArticles(article.getArticleId());
+
+        articleRepository.delete(article);
+        return true;
+    }
+
+    public boolean deleteArticleByArticleId( Long articleId) {
+        ArticleEntity article = findByArticleId(articleId);
         articleRepository.deleteLikesFromArticles(article.getArticleId());
 
         articleRepository.delete(article);
@@ -132,6 +146,18 @@ public class ArticleServiceImpl implements ArticleService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public PagedResults<LikedArticleInfo> likedArticlesByUser(Long userId, Integer limit, Integer offset) {
+        findByUserId(userId);
+        Page<LikedArticleInfo> articleEntityPage = articleRepository.findLikedArticlesByUser(userId, Pageable.ofSize(limit).withPage(offset));
+        return PagedResults.<LikedArticleInfo>builder()
+                .results(articleEntityPage.getContent())
+                .totalCount((int) articleEntityPage.getTotalElements())
+                .pageSize(articleEntityPage.getTotalPages())
+                .pageCount(articleEntityPage.getContent().size())
+                .build();
     }
 
     private UserEntity findByUserId(Long userId) {

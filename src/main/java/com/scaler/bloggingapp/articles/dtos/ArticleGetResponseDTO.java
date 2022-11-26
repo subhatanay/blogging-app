@@ -1,6 +1,8 @@
 package com.scaler.bloggingapp.articles.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.scaler.bloggingapp.articles.entity.ArticleEntity;
+import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleGetResponseDTO {
     private Long articleId;
     private String description;
@@ -17,8 +20,10 @@ public class ArticleGetResponseDTO {
     private String content;
 
     private Long likesCount;
-
     private String createdAt;
+
+
+    private UserGetResponseDTO author;
 
 
     public static ArticleGetResponseDTO buildFrom(ArticleEntity article) {

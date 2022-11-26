@@ -32,6 +32,7 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/users/signup","/users/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/feed/top").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)

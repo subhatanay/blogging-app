@@ -19,6 +19,7 @@ public class UserGetResponseDTO implements Serializable {
 
     private Long userId;
     private String username;
+    private String fullName;
     private String emailId;
     private String userLogoUrl;
     private Date createdDate;
@@ -37,6 +38,7 @@ public class UserGetResponseDTO implements Serializable {
         userGetResponseDTO.setUsername(userEntity.getUsername());
         userGetResponseDTO.setEmailId(userEntity.getEmailId());
         userGetResponseDTO.setUserLogoUrl(userEntity.getProfileImageLink());
+        userGetResponseDTO.setFullName(userEntity.getFullName());
         userGetResponseDTO.setCreatedDate(userEntity.getCreateTimestamp());
 
         return userGetResponseDTO;

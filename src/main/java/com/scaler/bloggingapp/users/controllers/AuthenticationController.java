@@ -41,7 +41,6 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity loginUser(@RequestBody LoginRequestDTO loginRequestDTO) {
        LoginResponseDTO loginResponseDTO = userService.loginUser(loginRequestDTO);
-
        return ResponseEntity.ok().body(loginResponseDTO);
     }
 
@@ -73,16 +72,6 @@ public class AuthenticationController {
                 .body(ErrorResponseDTO.builder()
                         .errorCode(validationException.getErrorCode())
                         .errorMessage(validationException.getMessage())
-                        .build()
-                );
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> parentExceptionHandle(Exception exception) {
-        return ResponseEntity.status(HttpStatus.valueOf(500))
-                .body(ErrorResponseDTO.builder()
-                        .errorCode(500)
-                        .errorMessage(exception.getMessage())
                         .build()
                 );
     }

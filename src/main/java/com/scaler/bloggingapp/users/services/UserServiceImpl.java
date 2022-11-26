@@ -73,6 +73,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserGetResponseDTO updateUserProfile(Long userId,UserPutRequestDto userPutRequestDto) {
+        userPutRequestDto.validate();
+        if (userPutRequestDto.getPassword()!=null) {
+            userPutRequestDto.setPassword(passwordEncoder.encode(userPutRequestDto.getPassword()));
+        }
+        UserEntity user = findByUserId(userId);
+        user.buildFromUserPutDto(userPutRequestDto);
+
+        userRepository.save(user);
+        return UserGetResponseDTO.buildFrom(user);
+    }
+
+    @Override
     public UserGetResponseDTO getUser(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(Long.valueOf(userId));
         if (!userEntity.isPresent()) {
