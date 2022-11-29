@@ -14,11 +14,11 @@ import lombok.Setter;
 public class CommentPostRequestDTO implements Validation {
     private Long parentCommentId;
 
-    private String commentsData;
+    private String commentData;
 
     @Override
     public boolean validate() throws ValidationException {
-        if (commentsData == null || commentsData.trim().length() >255) {
+        if (commentData == null || commentData.trim().length() >255) {
             throw new ValidationException("Comments Data must be provided within 255 character limit.");
         }
         return true;

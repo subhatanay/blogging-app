@@ -80,6 +80,9 @@ public class UserEntity extends AuditEntity {
         if (userData.getPassword()!=null) {
             this.setPassword(userData.getPassword());
         }
+        if (userData.getBio()!=null) {
+            this.setBio(userData.getBio());
+        }
         return this;
     }
 

@@ -11,6 +11,7 @@ import com.scaler.bloggingapp.users.entity.JwtAuthentication;
 import com.scaler.bloggingapp.users.exceptions.UserAlreadyExistsException;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
 import com.scaler.bloggingapp.users.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "authenticatedAPIS")
 public class UsersResourceController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersResourceController.class);
     private UserService userService;
@@ -43,6 +45,14 @@ public class UsersResourceController {
                     .status(HttpStatus.valueOf(userGetResponseDTO.getErrorResponse().getErrorCode()))
                     .body(userGetResponseDTO);
         }
+        return ResponseEntity.ok(userGetResponseDTO);
+    }
+    @GetMapping(path = "/me")
+    @RolesAllowed("ROLE_USER")
+    public ResponseEntity getCurrentUser() {
+        Long userId = CurrentAuthenticationHolder.getCurrentAuthenticationContext().getUserId();
+        UserGetResponseDTO userGetResponseDTO = userService.getUser(userId);
+
         return ResponseEntity.ok(userGetResponseDTO);
     }
 

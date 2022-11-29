@@ -5,6 +5,7 @@ import com.scaler.bloggingapp.articles.services.ArticleService;
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
 import com.scaler.bloggingapp.common.models.CurrentAuthenticationHolder;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/articles/{articleId}/like")
+@SecurityRequirement(name = "authenticatedAPIS")
 public class LikesController {
     private ArticleService articleService;
 

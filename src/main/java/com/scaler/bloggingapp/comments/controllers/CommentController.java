@@ -14,6 +14,7 @@ import com.scaler.bloggingapp.common.exceptions.ForbiddenRequestException;
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
 import com.scaler.bloggingapp.common.models.CurrentAuthenticationHolder;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.text.MessageFormat;
 
 @RestController
 @RequestMapping("/articles/{articleId}/comments")
+@SecurityRequirement(name = "authenticatedAPIS")
 public class CommentController {
     private final CommentsService commentsService;
 
@@ -42,10 +44,9 @@ public class CommentController {
     }
 
     @GetMapping
-    @RolesAllowed({"ROLE_SYSADMIN","ROLE_USER"})
     public ResponseEntity getCommentsByArticleId(@PathVariable("articleId") Long articleId,
                                                  @RequestParam(value = "offset",defaultValue = "0") Integer offset,
-                                                 @RequestParam(value = "limit",defaultValue  = "10") Integer limit) {
+                                                 @RequestParam(value = "limit",defaultValue  = "100") Integer limit) {
         PagedResults<CommentGetResponseDTO>  commentGetResponseDTOPagedResults = commentsService.getCommentsByArticle(articleId,offset, limit);
         return ResponseEntity.ok().body(commentGetResponseDTOPagedResults);
     }

@@ -3,6 +3,7 @@ package com.scaler.bloggingapp.feed.services;
 import com.scaler.bloggingapp.common.dto.PagedResults;
 import com.scaler.bloggingapp.feed.dao.FeedRepository;
 import com.scaler.bloggingapp.feed.dtos.FeedArticleContent;
+import com.scaler.bloggingapp.feed.dtos.TopFeedArticleContent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,14 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public PagedResults<FeedArticleContent> getTopFeeds(Integer limit, Integer offset) {
-        Page<FeedArticleContent> feedArticleContents = feedRepository.getTopFeeds(Pageable.ofSize(limit).withPage(offset));
+    public PagedResults<TopFeedArticleContent> getTopFeeds(Integer limit, Integer offset) {
+        Page<TopFeedArticleContent> feedArticleContents = feedRepository.getTopFeeds(Pageable.ofSize(limit).withPage(offset));
 
-        return PagedResults.<FeedArticleContent>builder()
+        return PagedResults.<TopFeedArticleContent>builder()
                 .results(feedArticleContents.getContent())
                 .totalCount((int) feedArticleContents.getTotalElements())
-                .pageSize(feedArticleContents.getTotalPages())
-                .pageCount(feedArticleContents.getContent().size())
+                .pageSize(feedArticleContents.getContent().size())
+                .pageCount(feedArticleContents.getTotalPages())
                 .build();
     }
 
@@ -34,8 +35,8 @@ public class FeedServiceImpl implements FeedService {
         return PagedResults.<FeedArticleContent>builder()
                 .results(feedArticleContents.getContent())
                 .totalCount((int) feedArticleContents.getTotalElements())
-                .pageSize(feedArticleContents.getTotalPages())
-                .pageCount(feedArticleContents.getContent().size())
+                .pageSize(feedArticleContents.getContent().size())
+                .pageCount(feedArticleContents.getTotalPages())
                 .build();
     }
 }

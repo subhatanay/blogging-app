@@ -10,12 +10,14 @@ import com.scaler.bloggingapp.users.dto.UserGetResponseDTO;
 import com.scaler.bloggingapp.users.dto.UserPutRequestDto;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
 import com.scaler.bloggingapp.users.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users/{userId}/profile")
+@SecurityRequirement(name = "authenticatedAPIS")
 public class UserProfileController {
     private UserService userService;
     private  ArticleService articleService;
@@ -28,6 +30,9 @@ public class UserProfileController {
     @GetMapping("/info")
     public ResponseEntity getUserProfile(@PathVariable("userId") Long userId) {
         UserGetResponseDTO userGetResponseDTO = userService.getUser(userId);
+        if (CurrentAuthenticationHolder.isAuthenticatedRequest()) {
+            userGetResponseDTO.setFollowing(userService.isUserFollowing(CurrentAuthenticationHolder.getCurrentAuthenticationContext().getUserId(), userId));
+        }
         return ResponseEntity.ok().body(userGetResponseDTO);
     }
 

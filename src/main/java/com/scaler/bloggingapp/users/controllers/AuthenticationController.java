@@ -2,10 +2,7 @@ package com.scaler.bloggingapp.users.controllers;
 
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
-import com.scaler.bloggingapp.users.dto.LoginRequestDTO;
-import com.scaler.bloggingapp.users.dto.LoginResponseDTO;
-import com.scaler.bloggingapp.users.dto.UserPostRequestDTO;
-import com.scaler.bloggingapp.users.dto.UserPostResponseDTO;
+import com.scaler.bloggingapp.users.dto.*;
 import com.scaler.bloggingapp.users.exceptions.InvalidUserCredentialsException;
 import com.scaler.bloggingapp.users.exceptions.UserAlreadyExistsException;
 import com.scaler.bloggingapp.users.services.UserService;
@@ -40,7 +37,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity loginUser(@RequestBody LoginRequestDTO loginRequestDTO) {
-       LoginResponseDTO loginResponseDTO = userService.loginUser(loginRequestDTO);
+        UserGetResponseDTO loginResponseDTO = userService.loginUser(loginRequestDTO);
        return ResponseEntity.ok().body(loginResponseDTO);
     }
 

@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
             return UserPostResponseDTO
                     .builder()
                     .userId(userEntity.getUserId())
+                    .username(userEntity.getUsername())
                     .token(jwtService.createJwt(userEntity.getUsername(), userEntity.getRoles()))
                     .build();
 
@@ -91,8 +92,10 @@ public class UserServiceImpl implements UserService {
         if (!userEntity.isPresent()) {
             throw new UserNotFoundException(MessageFormat.format("User with id {0} not exists", userId));
         }
-
-        return UserGetResponseDTO.buildFrom(userEntity.get());
+        UserGetResponseDTO userGetResponseDTO = UserGetResponseDTO.buildFrom(userEntity.get());
+        userGetResponseDTO.setFollowersCount(userEntity.get().getFollowers().size());
+        userGetResponseDTO.setFollowingCount(userEntity.get().getFollowings().size());
+        return userGetResponseDTO;
     }
 
     @Override
@@ -144,7 +147,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
+    public UserGetResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
         loginRequestDTO.validate();
         Optional<UserEntity> userEntity = userRepository.findByEmailId(loginRequestDTO.getEmailId());
         if (userEntity == null || !userEntity.isPresent()) {
@@ -152,11 +155,9 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity user = userEntity.get();
         if (passwordEncoder.matches(loginRequestDTO.getPassword(),user.getPassword())) {
-           return  LoginResponseDTO.builder()
-                    .userName(user.getUsername())
-                    .userId(user.getUserId())
-                    .token(jwtService.createJwt(user.getUsername(),user.getRoles()))
-                   .build();
+            UserGetResponseDTO userGetResponseDTO =  UserGetResponseDTO.buildFrom(user);
+            userGetResponseDTO.setToken(jwtService.createJwt(user.getUsername(),user.getRoles()));
+            return userGetResponseDTO;
         }
         throw new InvalidUserCredentialsException("User not exists or Bad credentials provided.");
     }
@@ -202,6 +203,13 @@ public class UserServiceImpl implements UserService {
                 .results(followingsList)
                 .build();
     }
+
+    @Override
+    public boolean isUserFollowing(Long currentUserId, Long followingUserId) {
+        UserEntity currentUser = findByUserId(currentUserId);
+        UserEntity followingUser = findByUserId(followingUserId);
+        return currentUser.getFollowings().contains(followingUser);
+     }
 
     private UserEntity findByUserId(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(Long.valueOf(userId));

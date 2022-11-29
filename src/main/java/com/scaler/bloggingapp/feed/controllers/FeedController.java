@@ -3,7 +3,9 @@ package com.scaler.bloggingapp.feed.controllers;
 import com.scaler.bloggingapp.common.dto.PagedResults;
 import com.scaler.bloggingapp.common.models.CurrentAuthenticationHolder;
 import com.scaler.bloggingapp.feed.dtos.FeedArticleContent;
+import com.scaler.bloggingapp.feed.dtos.TopFeedArticleContent;
 import com.scaler.bloggingapp.feed.services.FeedService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +23,13 @@ public class FeedController {
 
     @GetMapping(path = "/top")
     public ResponseEntity getTopFeeds(@RequestParam(name = "limit" , defaultValue = "10") Integer limit, @RequestParam(name = "offset",defaultValue = "0") Integer offset) {
-        PagedResults<FeedArticleContent> feedArticleContentPagedResults = feedService.getTopFeeds(limit,offset);
+        PagedResults<TopFeedArticleContent> feedArticleContentPagedResults = feedService.getTopFeeds(limit,offset);
 
         return ResponseEntity.ok(feedArticleContentPagedResults);
     }
 
     @GetMapping(path = "/me")
+    @SecurityRequirement(name = "authenticatedAPIS")
     public ResponseEntity getMyFeeds(@RequestParam(name = "limit" , defaultValue = "10") Integer limit, @RequestParam(name = "offset",defaultValue = "0") Integer offset) {
         Long userId = CurrentAuthenticationHolder.getCurrentAuthenticationContext().getUserId();
         PagedResults<FeedArticleContent> feedArticleContentPagedResults = feedService.getMyFeeds(userId,limit,offset);

@@ -16,6 +16,8 @@ public interface ArticleService {
 
     public PagedResults<ArticleGetResponseDTO> getUserPostedArticles(Long userId, Integer offset, Integer pageSize);
 
+    public ArticleGetResponseDTO getArticle(Long article);
+
     public ArticleGetResponseDTO getArticleByArticleIdAndUserId(Long userId, Long articleId);
 
     public boolean deleteArticleByArticleIdAndUserId(Long userId, Long articleId);

@@ -24,7 +24,7 @@ public class UserPostRequestDTO implements Serializable, Validation {
     @Override
     public boolean validate() throws ValidationException {
         if (!StringUtils.hasText(this.username)) {
-            throw new ValidationException("Please provide user's full name");
+            throw new ValidationException("Please provide a username");
         }
 
         if (!StringUtils.hasText(this.emailId)) {

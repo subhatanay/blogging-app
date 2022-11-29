@@ -13,6 +13,10 @@ public class CurrentAuthenticationHolder {
         return authTokenInfo;
     }
 
+    public static boolean isAuthenticatedRequest() {
+        return SecurityContextHolder.getContext().getAuthentication() == null || (SecurityContextHolder.getContext().getAuthentication() instanceof JwtAuthentication) ;
+    }
+
     public static boolean isSysAdmin() {
         AuthTokenInfo authTokenInfo = getCurrentAuthenticationContext();
         return authTokenInfo.getRoles().stream().filter(role -> role.equals("ROLE_SYSADMIN")).count() > 0;

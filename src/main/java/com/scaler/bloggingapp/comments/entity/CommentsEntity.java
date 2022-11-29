@@ -38,7 +38,7 @@ public class CommentsEntity extends AuditEntity {
 
     public static CommentsEntity buildFrom(CommentPostRequestDTO commentPostRequestDTO, ArticleEntity article , UserEntity user) {
         CommentsEntity commentsEntity = new CommentsEntity();
-        commentsEntity.setCommentData(commentPostRequestDTO.getCommentsData());
+        commentsEntity.setCommentData(commentPostRequestDTO.getCommentData());
         commentsEntity.setArticle(article);
         commentsEntity.setUser(user);
         commentsEntity.setCreateTimestamp(new Date());

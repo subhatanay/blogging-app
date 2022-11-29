@@ -22,10 +22,13 @@ public class UserGetResponseDTO implements Serializable {
     private String fullName;
     private String emailId;
     private String userLogoUrl;
+    private String bio;
     private Date createdDate;
     private List<String> roles;
     private Integer followersCount;
     private Integer followingCount;
+    private boolean following;
+    private String token;
 
 
     private ErrorResponseDTO errorResponse;
@@ -40,6 +43,8 @@ public class UserGetResponseDTO implements Serializable {
         userGetResponseDTO.setUserLogoUrl(userEntity.getProfileImageLink());
         userGetResponseDTO.setFullName(userEntity.getFullName());
         userGetResponseDTO.setCreatedDate(userEntity.getCreateTimestamp());
+        userGetResponseDTO.setBio(userEntity.getBio());
+        userGetResponseDTO.setUserLogoUrl(userEntity.getProfileImageLink());
 
         return userGetResponseDTO;
 

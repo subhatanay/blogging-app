@@ -58,7 +58,7 @@ public class ArticleEntity extends AuditEntity {
         }
 
         if (articlePutRequestDTO.getContent() != null) {
-            this.setSubject(articlePutRequestDTO.getContent());
+            this.setContent(articlePutRequestDTO.getContent());
         }
     }
 

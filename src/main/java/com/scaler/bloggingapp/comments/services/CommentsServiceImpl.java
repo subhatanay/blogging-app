@@ -66,10 +66,6 @@ public class CommentsServiceImpl implements  CommentsService{
         ArticleEntity article = findByArticleId(articleId);
         Page<CommentsEntity> articleComments = this.commentsRepository.findCommentsByArticleId(article.getArticleId(), Pageable.ofSize(limit).withPage(offset));
 
-        if (articleComments == null || articleComments.getTotalElements() == 0) {
-            throw new NoCommentFoundException("Article does have any comments.");
-        }
-
         List<CommentGetResponseDTO> commentsListByArticle = articleComments.getContent().stream().map(artComm -> {
             CommentGetResponseDTO comment = CommentGetResponseDTO.from(artComm);
             List<CommentsEntity> replyCommentsEntity = this.commentsRepository.findReplyCommentsByArticleIdAndCommentId(articleId, comment.getCommentId());

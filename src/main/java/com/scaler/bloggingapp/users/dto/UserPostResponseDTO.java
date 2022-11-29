@@ -15,6 +15,7 @@ public class UserPostResponseDTO {
 
     private Long userId;
     private String resourceUrl;
+    private String username;
     private String token;
 
     private ErrorResponseDTO errorResponse;

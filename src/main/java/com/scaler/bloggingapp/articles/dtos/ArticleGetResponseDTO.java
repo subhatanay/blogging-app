@@ -22,6 +22,8 @@ public class ArticleGetResponseDTO {
     private Long likesCount;
     private String createdAt;
 
+    private boolean liked;
+
 
     private UserGetResponseDTO author;
 
@@ -33,6 +35,7 @@ public class ArticleGetResponseDTO {
         newArticle.subject = article.getSubject();
         newArticle.content = article.getContent();
         newArticle.createdAt = article.getCreateTimestamp().toString();
+
 
         return newArticle;
     }

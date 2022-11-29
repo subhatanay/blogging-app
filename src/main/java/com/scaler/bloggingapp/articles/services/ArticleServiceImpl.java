@@ -80,14 +80,27 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleGetResponseDTO getArticle(Long articleId) {
+        ArticleEntity articleEntity = findByArticleId(articleId);
+        ArticleGetResponseDTO articleDTO = ArticleGetResponseDTO.buildFrom(articleEntity);
+        UserGetResponseDTO authorInfo = UserGetResponseDTO.buildFrom(articleEntity.getAuthor());
+        articleDTO.setLikesCount(articleRepository.countLikesByArticleId(articleEntity.getArticleId()));
+        articleDTO.setAuthor(authorInfo);
+
+
+        return articleDTO;
+    }
+
+    @Override
     public ArticleGetResponseDTO getArticleByArticleIdAndUserId(Long userId, Long articleId) {
         UserEntity userInfo = findByUserId(userId);
-        ArticleEntity article = findByUserAndAArticleId(userInfo,articleId);
+        ArticleEntity article = findByArticleId(articleId);
         ArticleGetResponseDTO articleGetResponseDTO = ArticleGetResponseDTO.buildFrom(article);
         articleGetResponseDTO.setLikesCount(articleRepository.countLikesByArticleId(articleGetResponseDTO.getArticleId()));
         articleGetResponseDTO.setAuthor(UserGetResponseDTO.buildFrom(article.getAuthor()));
+        articleGetResponseDTO.setLiked(userInfo.getLikedArticles().contains(article));
 
-        return ArticleGetResponseDTO.buildFrom(article);
+        return articleGetResponseDTO;
     }
 
     @Override
@@ -155,8 +168,8 @@ public class ArticleServiceImpl implements ArticleService {
         return PagedResults.<LikedArticleInfo>builder()
                 .results(articleEntityPage.getContent())
                 .totalCount((int) articleEntityPage.getTotalElements())
-                .pageSize(articleEntityPage.getTotalPages())
-                .pageCount(articleEntityPage.getContent().size())
+                .pageSize(articleEntityPage.getContent().size())
+                .pageCount(articleEntityPage.getTotalPages())
                 .build();
     }
 

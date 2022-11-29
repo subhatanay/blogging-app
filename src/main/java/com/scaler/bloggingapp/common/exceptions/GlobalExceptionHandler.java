@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> parentExceptionHandle(Exception exception) {
+        exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.valueOf(500))
                 .body(ErrorResponseDTO.builder()
                         .errorCode(500)

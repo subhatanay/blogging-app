@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserPutRequestDto implements Validation {
     private String fullName;
+    private String bio;
     private String profileImageLink;
 
     private String password;
@@ -25,6 +26,9 @@ public class UserPutRequestDto implements Validation {
         }
         if (profileImageLink!=null && !StringUtils.hasText(profileImageLink)) {
             throw new ValidationException("Profile Image Link should not be blank or empty");
+        }
+        if (bio!=null && !StringUtils.hasText(bio)) {
+            throw new ValidationException("User Bio should not be blank or empty");
         }
         if (password!=null && !StringUtils.hasText(password)) {
             throw new ValidationException("Password should not be blank or empty");

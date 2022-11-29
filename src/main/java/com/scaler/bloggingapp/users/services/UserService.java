@@ -20,7 +20,7 @@ public interface UserService {
 
     public abstract UserGetResponseDTO findUserByUsername(String emailId);
 
-    public abstract LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO);
+    public abstract UserGetResponseDTO loginUser(LoginRequestDTO loginRequestDTO);
 
     public boolean followUser(Long userId, Long followerUserId);
 
@@ -29,4 +29,6 @@ public interface UserService {
     public abstract PagedResults<UserGetResponseDTO> getUserFollowers(Long userId, Integer offset, Integer pageSize);
 
     public abstract PagedResults<UserGetResponseDTO> getUserFollowings(Long userId, Integer offset, Integer pageSize);
+
+    public abstract boolean isUserFollowing(Long currentUserId, Long followingUserId);
 }

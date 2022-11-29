@@ -7,12 +7,16 @@ import com.scaler.bloggingapp.articles.dtos.ArticlePostResponseDTO;
 import com.scaler.bloggingapp.articles.dtos.ArticlePutRequestDTO;
 import com.scaler.bloggingapp.articles.services.ArticleService;
 import com.scaler.bloggingapp.common.dto.ErrorResponseDTO;
+import com.scaler.bloggingapp.common.dto.PagedResults;
 import com.scaler.bloggingapp.common.exceptions.ForbiddenRequestException;
 import com.scaler.bloggingapp.common.exceptions.ValidationException;
 import com.scaler.bloggingapp.common.models.AuthTokenInfo;
 import com.scaler.bloggingapp.common.models.CurrentAuthenticationHolder;
 import com.scaler.bloggingapp.users.controllers.AuthenticationController;
 import com.scaler.bloggingapp.users.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,8 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/articles")
+@SecurityRequirement(name = "Credentials")
+
 public class ArticleController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
     private ArticleService articleService;
@@ -67,6 +73,16 @@ public class ArticleController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping(path="/{articleId}")
+    public ResponseEntity getArticleById(@PathVariable("articleId") Long articleId) {
+        boolean isAuth = CurrentAuthenticationHolder.isAuthenticatedRequest();
+        ArticleGetResponseDTO articleGetResponseDTO = isAuth ?  articleService.getArticleByArticleIdAndUserId(CurrentAuthenticationHolder.getCurrentAuthenticationContext().getUserId(),articleId)
+                                                                : articleService.getArticle(articleId);
+        return ResponseEntity.ok(articleGetResponseDTO);
+    }
+
+
 
 
     @ExceptionHandler(ArticleNotFoundException.class)

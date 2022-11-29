@@ -9,11 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
-public class LoginResponseDTO {
-    Long userId;
-    String userName;
-    String token;
+public class LoginResponseDTO extends UserGetResponseDTO {
 
-    private ErrorResponseDTO errorResponse;
+    String token;
 }
