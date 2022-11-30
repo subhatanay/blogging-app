@@ -1,4 +1,4 @@
-### Blogging APP Backend
+### Medium Clone Blogging App
 
 ## Description
 Portfolio Backend REST API and UI application to manage Users, Articles , Comments , Likes , Followers
