@@ -24,10 +24,10 @@ Portfolio Backend REST API and UI application to manage Users, Articles , Commen
 6. Backend env file -> ./app-backend/src/java/main/resources/application.yml
 7. UI env file -> ./blogging-frontend-app/src/environments/environments.prod.ts
 
-## Frontend UI Deployment Steps
-Follow https://github.com/subhatanay/bloggingapp-frontend/blob/master/README.md
-
 ## API Documentation
 Open Browser and hit http://localhost:6060/api/swagger-ui/index.html
+![image](https://user-images.githubusercontent.com/22850961/204879368-056f911e-801d-4cf8-9f3d-5799c4c03df6.png)
+
 
 ## Demo
+![Medium Clone](https://user-images.githubusercontent.com/22850961/204880642-9183f848-bfda-4edc-a090-105c4eec58f8.gif)
