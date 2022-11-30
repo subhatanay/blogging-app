@@ -1,7 +1,7 @@
 ### Blogging APP
 
 ## Description
-Portfolio Backend REST API application to manage Users, Articles , Comments , Likes , Followers
+Portfolio Backend REST API and UI application to manage Users, Articles , Comments , Likes , Followers
 
 ## Requirements
 1. CRUD capabilities for USERS
@@ -14,15 +14,15 @@ Portfolio Backend REST API application to manage Users, Articles , Comments , Li
 
 ## Prerequisites
 1. Java 11
-2. Maven
 3. Docker, Docker compose 
 
-## Local Deployment Steps
+## Local Deployment Steps with one step
 1. Clone the project -> https://github.com/subhatanay/blogging-app.git
 2. cd blogging-app. 
-3. mvn clean install
 4. docker-compose up -d
-5. Application will be up in 6060 port. 
+5. Backend will start at 6060 and UI will start at 4200
+6. Backend env file -> ./app-backend/src/java/main/resources/application.yml
+7. UI env file -> ./blogging-frontend-app/src/environments/environments.prod.ts
 
 ## Frontend UI Deployment Steps
 Follow https://github.com/subhatanay/bloggingapp-frontend/blob/master/README.md

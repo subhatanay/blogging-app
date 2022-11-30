@@ -1,0 +1,81 @@
+<div class="article-page">
+  <div class="banner">
+    <div class="container" *ngIf="article">
+      <h1>{{ article.subject }}</h1>
+      <p>{{ article.description }}</p>
+
+      <div class="article-meta">
+        <a [routerLink]="['/profiles', article.author.userId]">
+          <img [src]="article.author.userLogoLink" />
+        </a>
+        <div class="info">
+          <a [routerLink]="['/profiles', article.author.userId]">
+            {{ article.author.username }}
+          </a>
+
+          <span class="date">
+            {{ article.createdAt }}
+          </span>
+        </div>
+        <mc-follow-author
+          [authorId]="article.author.userId"
+          [authorName]="article.author.username"
+          [following]="article.author.folllowing"
+        >
+        </mc-follow-author>
+        <mc-add-to-faviourites
+          [isFavioured]="isArticleFavourited$ | async"
+          [favouriteCount]="favoriteCount$ | async"
+          [articleSlug]="article.articleId"
+          [buttonText]="
+            (isArticleFavourited$ | async) ? 'Unfavorite' : 'Favorite'
+          "
+          [dynamic]="true"
+        ></mc-add-to-faviourites>
+
+        <span *ngIf="isAuthor$ | async">
+          <a
+            [routerLink]="['/articles', article.articleId, 'edit']"
+            class="btn btn-outline-secondary btn-sm"
+          >
+            <i class="ion-edit"> Edit Article </i>
+          </a>
+          <a
+            class="btn btn-outline-danger btn-sm"
+            (click)="deleteArticle(article.articleId)"
+          >
+            <i class="ion-delete"> </i>
+            Delete Article
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container page">
+  <mc-loading *ngIf="isLoading$ | async"></mc-loading>
+  <mc-error-message *ngIf="error$ | async"></mc-error-message>
+  <div class="row artkcle-content" *ngIf="article">
+    <div class="col-xs-12">
+      <div>
+        {{ article.content }}
+      </div>
+      <!-- <mc-tag-list [tags]="article.tagList"></mc-tag-list> -->
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12 col-md-8 offset-md-2">
+      <mc-comment [articleId]="articleId"></mc-comment>
+      <mc-comment-card
+      *ngFor="let comm of (comments$ | async)?.results"
+      [commentText]="comm.commentData"
+      [commenterUsername]="comm.commentUsername"
+      [commenterUserlogo]="comm.commentUserlogo"
+    ></mc-comment-card>
+    </div>
+
+
+
+  </div>
+</div>

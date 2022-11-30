@@ -1,0 +1,4 @@
+<a  class="btn btn-outline-secondary btn-sm" [ngClass]="{btn: true, 'btn-sm':true , 'btn-primary':isFavorited,'btn-outline-primary': !isFavorited}" (click)="onFavouiteClick()">
+  <i class="ion-heart">  </i>
+  &nbsp; {{buttonTextProps}} {{ dynamicProps === true ? favouriteCountProps : favouriteCount }}
+</a>
