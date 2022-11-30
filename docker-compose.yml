@@ -13,13 +13,11 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     networks:
-      - app-network
-
-
+      - app-network 
   blogging-app:
     container_name: blogging-app
     build:
-      context: .
+      context: ./app-backend
       dockerfile: Dockerfile
     ports:
       - 6060:6060
@@ -27,6 +25,19 @@ services:
       - app-network
     depends_on:
       - postgres-db
+  blogging-ui:
+    container_name: blogging-ui
+    build:
+      context: ./blogging-frontend-app
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    networks:
+      - app-network
+    depends_on:
+      - postgres-db
+      - blogging-app
+
 
 networks:
   app-network:

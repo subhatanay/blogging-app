@@ -1,0 +1,13 @@
+<form  [formGroup]="form" class="card comment-form" (ngSubmit)="onSubmit()">
+  <fieldset  class="form-group">
+    <div class="card-block">
+      <textarea class="form-control" placeholder="Write a comment" rows="3" formControlName="commentData"></textarea>
+    </div>
+  </fieldset>
+  <fieldset class="form-group">
+    <div class="card-footer">
+      <img class="comment-author-img" width="30" height="30" src="https://api.realworld.io/images/smiley-cyrus.jpeg">
+      <button *ngIf="(isLoggedIn$ | async)" class="btn btn-sm btn-primary pull-xs-right" [disabled]="isSubmitting$ | async" type="submit" [disabled]="!form.valid">Post Comment</button>
+    </div>
+  </fieldset>
+</form>
